@@ -1,0 +1,312 @@
+openapi: 3.1.0
+info:
+  title: Gibwork api
+  description: Gibwork api.
+  version: v1.0.0
+servers:
+  - url: https://api2.gib.work
+paths:
+  /tasks/{id}:
+    get:
+      operationId: TasksController_getTaskById
+      x-openai-isConsequential: false
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Get tasks details
+      tags:
+        - tasks
+
+  /tasks/public:
+    post:
+      operationId: TasksController_createPublicTask
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                content:
+                  type: string
+                requirements:
+                  type: string
+                tags:
+                  type: array
+                  items:
+                    type: string
+              required:
+                - title
+                - content
+                - requirements
+                - tags
+      responses:
+        "201":
+          description: ""
+          content:
+            application/json:
+              example:
+                taskId: "taskId"
+                link: "https://app.gib.work/tasks/taskId"
+                addressToDepositFunds: "addressToDepositFunds"
+      security:
+        - x-api-key: []
+      tags:
+        - tasks
+
+  /tasks/public/transaction:
+    post:
+      operationId: TasksController_createPublicTransactionTask
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreatePublicTaskTransactionDto"
+      responses:
+        "201":
+          description: Create a public transaction
+          content:
+            application/json:
+              example:
+                taskId: "taskId"
+                serializedTransaction: "serializedTransaction"
+      tags:
+        - tasks
+
+  /explore:
+    get:
+      operationId: ListTasks
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: number
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: number
+            minimum: 1
+            default: 15
+        - name: pageAll
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: search
+          in: query
+          required: false
+          schema:
+            type: string
+            minLength: 1
+        - name: orderBy
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: tags
+          in: query
+          required: false
+          description: List of tags
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  lastPage:
+                    type: integer
+                    example: 24
+                  page:
+                    type: integer
+                    example: 1
+                  limit:
+                    type: integer
+                    example: 15
+                  total:
+                    type: integer
+                    example: 355
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: "529bb138-0610-453b-9319-094af823d9e8"
+                        title:
+                          type: string
+                          example: "Define IDL for initialize non transferable mint instruction"
+                        createdAt:
+                          type: string
+                          format: date-time
+                          example: "2024-10-16T20:53:35.197Z"
+                        type:
+                          type: string
+                          example: "bounties"
+                        slug:
+                          type: string
+                          example: "InitializeNonTransferableMint"
+                        assetId:
+                          type: string
+                          example: "814b8457-f5b1-4a75-ab1d-2d2b5eacccb0"
+                        createdBy:
+                          type: string
+                          example: "08f93c74-1fd8-4c3b-8933-e8f62d0a4320"
+                        remainingAmount:
+                          type: number
+                          example: 12.876960572427555
+                        deadline:
+                          type: string
+                          format: date-time
+                          example: "2024-12-16T21:00:00.574Z"
+                        tags:
+                          type: array
+                          items:
+                            type: string
+                          example: ["TypeScript"]
+                        status:
+                          type: string
+                          example: "CREATED"
+                        isFeatured:
+                          type: boolean
+                          example: true
+                        isOpen:
+                          type: boolean
+                          example: true
+                        isHidden:
+                          type: boolean
+                          example: false
+                        asset:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              example: "814b8457-f5b1-4a75-ab1d-2d2b5eacccb0"
+                            mintAddress:
+                              type: string
+                              example: "F7Hwf8ib5DVCoiuyGr618Y3gon429Rnd1r5F9R5upump"
+                            symbol:
+                              type: string
+                              example: "WORK"
+                            imageUrl:
+                              type: string
+                              format: uri
+                              example: "https://ipfs.io/ipfs/QmRrXtSRKSjiqaXYdHZVXmNTcoy2FXXR7jPeET97Cu66rx"
+                            amount:
+                              type: string
+                              example: "19070113385"
+                            price:
+                              type: number
+                              example: 12.876960572427555
+                            decimals:
+                              type: integer
+                              example: 6
+                            reward:
+                              type: integer
+                              example: 20
+                        user:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              example: "08f93c74-1fd8-4c3b-8933-e8f62d0a4320"
+                            firstName:
+                              type: string
+                              example: "vitor"
+                            lastName:
+                              type: string
+                              example: "pereira"
+                            username:
+                              type: string
+                              example: "vitorpereirared"
+                            profilePicture:
+                              type: string
+                              format: uri
+                              example: "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvb2F1dGhfZ29vZ2xlL2ltZ18ybWFQNnM2ckhBOWRMWHdMSmdXOTNUZDJXSDMifQ"
+                            externalId:
+                              type: string
+                              example: "user_2maP6x6LBYZcZtdmaywxKdWEZtt"
+                            isPhoneVerified:
+                              type: boolean
+                              example: false
+                            xAccountVerified:
+                              type: boolean
+                              example: true
+                        taskSubmissions:
+                          type: array
+                          items: {}
+                        bountySubmissions:
+                          type: array
+                          items: {}
+      tags:
+        - explore
+components:
+  securitySchemes:
+    x-api-key:
+      type: apiKey
+      name: x-api-key
+      in: header
+  schemas:
+    CreatePublicTaskTransactionDto:
+      type: object
+      properties:
+        title:
+          type: string
+        content:
+          type: string
+        requirements:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        payer:
+          type: string
+        token:
+          $ref: "#/components/schemas/TokenDto"
+        priorityFeeLevel:
+          type: string
+        maxPriorityFee:
+          type: number
+        priorityFee:
+          type: number
+      required:
+        - title
+        - content
+        - requirements
+        - tags
+        - payer
+        - token
+        - priorityFeeLevel
+        - maxPriorityFee
+        - priorityFee
+    TokenDto:
+      type: object
+      properties:
+        mintAddress:
+          type: string
+        amount:
+          type: string
+        decimals:
+          type: integer
