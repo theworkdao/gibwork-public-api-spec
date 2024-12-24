@@ -307,6 +307,6 @@ components:
         mintAddress:
           type: string
         amount:
-          type: string
-        decimals:
-          type: integer
+          type: number
+        # decimals:
+        #   type: integer
