@@ -285,12 +285,12 @@ components:
           type: string
         token:
           $ref: "#/components/schemas/TokenDto"
-        priorityFeeLevel:
-          type: string
-        maxPriorityFee:
-          type: number
-        priorityFee:
-          type: number
+        # priorityFeeLevel:
+        #   type: string
+        # maxPriorityFee:
+        #   type: number
+        # priorityFee:
+        #   type: number
       required:
         - title
         - content
