@@ -8,7 +8,7 @@ servers:
 paths:
   /tasks/{id}:
     get:
-      descripton: Fetches Task details using a Task Id.
+      description: Fetches Task details using a Task Id.
       operationId: TasksController_getTaskById
       x-openai-isConsequential: false
       parameters:
@@ -25,7 +25,7 @@ paths:
 
   /tasks/public:
     post:
-      descripton: Creates a Task and returns a Token account to fund the task.
+      description: Creates a Task and returns a Token account to fund the task.
       operationId: TasksController_createPublicTask
       parameters: []
       requestBody:
@@ -66,7 +66,7 @@ paths:
 
   /tasks/public/transaction:
     post:
-      descripton: Creates a Task and returns a serialized transaction to fund the task.
+      description: Creates a Task and returns a serialized transaction to fund the task.
       operationId: TasksController_createPublicTransactionTask
       parameters: []
       requestBody:
